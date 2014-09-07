@@ -1,0 +1,44 @@
+div.clear{
+	clear: both;
+}
+div#wrapper{
+	border: 1px solid #c0c0c0;
+	margin: auto;
+	width: 960px;
+	padding: 20px;
+}
+div#game-board{
+	margin: auto;
+	width: 660px;
+}
+div#table{
+	margin: auto;
+	width: 660px;
+	height: 200px;
+	padding: 5px;
+	background-color: #006600;
+}
+div#console{
+	color: white;
+}
+#points-bar{
+	padding: 5px;
+	background-color: #c1c1c1;
+	width: 100px;
+	margin: auto;
+}
+div#points{
+	float: left;
+	margin: 5px;
+}
+#points-sum{
+	float: left;
+	margin: 5px;
+}
+
+nav#controls{
+	width: 660px;
+	padding: 5px;
+	margin: auto;
+	background-color: #a0a0a0;
+}

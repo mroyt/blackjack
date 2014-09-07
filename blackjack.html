@@ -1,10 +1,78 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <title>Backjack</title>
-  </head>
-  <body>
-    <div id="game-board"></div>
-  </body>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<title>Backjack</title>
+		<link rel="stylesheet" type="text/css" href="css/blackjack.css">
+		<script type="text/javascript" src="js/blackjack.js"></script>
+		<script type="text/javascript" src="js/Hand.js"></script>
+		<script type="text/javascript" src="js/Card.js"></script>
+		<script type="text/javascript" src="js/Deck.js"></script>
+		<script type="text/javascript" src="js/Game.js"></script>
+		<script type="text/javascript" src="js/Player.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				game = new Game(10,1); //Table min
+				player = new Player("Player",2000,game);
+
+				$("button").click(function(){
+					if (this.id=="hit"){
+						player.hand.hit();
+					}
+					else if(this.id=="stand"){
+						player.hand.endHand();
+					}
+					else if(this.id=="double"){
+						player.hand.double();
+						player.hand.endHand();
+					}
+					else if(this.id=="split"){
+						player.dealToPlayer(game.deck,player.hand[0][0]);// player.hand is an array of all the hands (it's not a single hand)
+						player.dealToPlayer(game.deck,player.hand[0][1]);
+					}
+					else if(this.id=="new-deck"){
+						game.newDeck();
+					}
+					else if(this.id=="deal"){
+						player.dealToPlayer(game.deck);
+					}
+					$("#points-sum").html(player.hand[0].sum);
+				})
+				$("#current-wager").html(player.wager);
+
+			})
+
+		</script>
+	</head>
+	<body>
+		<div id="wrapper">
+		<div id="game-board">
+			<div id="table">
+				<button id="new-deck">Ask For New Deck</button>
+
+				<div id="console"></div>
+			</div>
+			<nav id="controls">
+				<button id="hit">Hit</button>
+				<button id="stand">Stand</button>
+				<button id="double">Double</button>
+				<button id="split">Split</button>
+				<button id="deal">Deal Hand</button>
+			</nav>
+		</div>
+		<aside id="info-bar">
+			<table>
+				<tr>
+					<td>Points:</td>
+					<td id="points-sum"></td>
+				</tr>
+				<tr>
+					<td>Current Wager:</td>
+					<td id="current-wager"></td>
+				</tr>
+			</table>
+    	</aside>
+		</div>
+	</body>
 </html>
