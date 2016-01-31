@@ -14,25 +14,23 @@
 		<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
-				game = new Game(5,1,2); //Table min
+				game = new Game(5,4,2); //Table min
 				player = new Player("Misha",2000,game);
 				dealer = new Dealer(game);
 
 				$("button").click(function(){
 					if (this.id=="hit"){
-							console.log("player.hand is:");
-							console.log(player.hands[0].cards);
 						player.hands[0].hit();
+						if (player.hands[0].isBusted){
+							game.decisionEngine(player);
+						}
 					}
 					else if(this.id=="stand"){
-						$("button.busted").prop("disabled",true);
-						dealer.dealerPlay();//apply Decision Engine function to this
-						game.decisionEngine(dealer,player);
-						$("button#deal").prop("disabled",false);
+						player.hands[0].stand();
 					}
 					else if(this.id=="double"){
-						player.hand.double();
-						player.hand.endHand();
+						player.hands[0].double();
+						player.hands[0].endHand();
 					}
 					else if(this.id=="split"){
 						player.dealToPlayer(game.deck,player.hand[0][0]);// player.hand is an array of all the hands (it's not a single hand)
@@ -51,9 +49,10 @@
 						game = new Game($("#table-min option:selected").text(),$("#num-of-decks option:selected").text(),$("num-of-players option:selected").text());
 					}
 					//$("#points-sum").html(player.hands[0].sum);
+					$("#bankroll").html("$"+player.bankRoll);
+					$("#current-wager").html("$"+player.hands[0].wager);
+					console.log(player.hands[0].wager);
 				})
-				$("#current-wager").html("$"+player.wager);
-				$("#bankroll").html("$"+player.bankRoll);
 			})
 
 		</script>
@@ -64,7 +63,7 @@
 				<form>
 					Number of Decks
 					<select id="num-of-decks">
-						<option>1</option>
+						<option>8</option>
 						<option>2</option>
 						<option>4</option>
 						<option>6</option>
@@ -98,17 +97,17 @@
 							<td id="dealer-points-sum"></td>
 						</tr>
 					</table>
-					<div id="dealer-console"></div>
+					<div id="dealer"></div>
 				</div>
 				<div id="table">
-				<div id="console"></div>
+				<div id="player"></div>
 				</div>
 				<nav id="controls">
 					<button class="busted" disabled id="hit">Hit</button>
 					<button class="busted" disabled id="stand">Stand</button>
 					<button class="busted" disabled id="double">Double</button>
 					<button class="busted" disabled id="split">Split</button>
-					<button id="deal">New Hand</button>
+					<button id="deal">Deal</button>
 					<button id="new-deck">Ask For New Deck</button>
 
 				</nav>

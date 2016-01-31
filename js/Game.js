@@ -16,10 +16,26 @@ var Game = function(tableMin,numDecks,otherPlayers,hit17,surrenderAvail,resplitT
 };
 Game.prototype.newDeck = function(){
 	this.deck = new Deck(this.numDecks);
+};
+Game.prototype.playerWinsHand = function(playerObj,handNumber){
+	playerObj.bankRoll+=playerObj.hands[handNumber].wager;
 }
+Game.prototype.dealerWinsHand = function(playerObj,handNumber){
+	playerObj.bankRoll-=playerObj.hands[handNumber].wager;
+};
 
-Game.prototype.decisionEngine = function(dealerObj,playerObj){
-	for (i=0;i<playerObj.hands.length;i++){
-		
+Game.prototype.decisionEngine = function(playerObj){
+	for (i=0; i<playerObj.hands.length; i++){
+		if ((dealer.hand.sum>playerObj.hands[i].sum && !dealer.hand.isBusted) || playerObj.hands[i].isBusted) {
+			console.log("Dealer wins on hand "+i);
+			this.dealerWinsHand(playerObj,i);
+		}
+		else if((dealer.hand.sum<playerObj.hands[i].sum || dealer.hand.isBusted) && !playerObj.hands[i].isBusted){
+			console.log("Player wins on hand "+i);
+			this.playerWinsHand(playerObj,i);
+		}
+		else {
+			console.log("push on hand "+i);
+		}
 	}
 }

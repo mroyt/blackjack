@@ -3,7 +3,8 @@ var Player = function(playerName,bankRoll,gameName){
 	this.name = playerName;
 	this.bankRoll = bankRoll;
 	this.wager = gameName.minWager;
-	this.hand = [];/*
+	//this.hand = [];
+	/*
 	var player = this;
 				console.log("player is: "+player.name);
 	this.dealToPlayer = function(deckName,currentHand){

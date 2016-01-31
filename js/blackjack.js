@@ -7,19 +7,21 @@ var go = function(){
 	michael.dealToPlayer(deck1);
 };
 
-/*var printToScreen = function(text){
-	document.getElementById("console").innerHTML = text;
-}*/
 var printScore = function(text,handId,player){
-	player="points-sum";
-	if (player=="dealer"){player="dealer-points-sum";}
+	if (player=="dealer"){
+		player="dealer-points-sum";
+	}
+	else{
+		player="points-sum";
+	}
 	document.getElementById(player).innerHTML = text;
 }
+//Show image of card in the player's location, based on his name
 var printImage = function(imgArray,player){
 //	$('#theDiv').prepend('<img id="theImg" src="theImg.png" />')
 	var cardHtml="";
-	var location = "console";
-	if (player=="dealer"){location="dealer-console";}
+	var location = "player";//When we figure out different players, we'll want to change this to locations based on player's name
+	if (player=="dealer"){location="dealer";}
 	for (i=0;i<imgArray.length;i++){
 		var cardHtml = cardHtml + '<img class="cardImg" id="'+imgArray[i]+'" src="./images/'+imgArray[i]+'.png" />'; 
 		document.getElementById(location).innerHTML = cardHtml;
