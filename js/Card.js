@@ -12,7 +12,7 @@ Card.prototype.getValue = function(id){
 		return 10;
 	}
 	else if(this.getName(id)==="ace"){
-		return 1;
+		return 11;
 	}
 	else{
 		return id%13;

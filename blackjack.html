@@ -10,18 +10,25 @@
 		<script type="text/javascript" src="js/Deck.js"></script>
 		<script type="text/javascript" src="js/Game.js"></script>
 		<script type="text/javascript" src="js/Player.js"></script>
+		<script type="text/javascript" src="js/Dealer.js"></script>
 		<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
-				game = new Game(10,1); //Table min
-				player = new Player("Player",2000,game);
+				game = new Game(5,1,2); //Table min
+				player = new Player("Misha",2000,game);
+				dealer = new Dealer(game);
 
 				$("button").click(function(){
 					if (this.id=="hit"){
-						player.hand.hit();
+							console.log("player.hand is:");
+							console.log(player.hands[0].cards);
+						player.hands[0].hit();
 					}
 					else if(this.id=="stand"){
-						player.hand.endHand();
+						$("button.busted").prop("disabled",true);
+						dealer.dealerPlay();//apply Decision Engine function to this
+						game.decisionEngine(dealer,player);
+						$("button#deal").prop("disabled",false);
 					}
 					else if(this.id=="double"){
 						player.hand.double();
@@ -35,44 +42,97 @@
 						game.newDeck();
 					}
 					else if(this.id=="deal"){
-						player.dealToPlayer(game.deck);
+						$("button.busted").prop("disabled",false);
+						$("button#deal").prop("disabled",true);
+						player.dealToPlayer(game.deck);//name of deck, and no existing hand
+						dealer.dealToDealer(game.deck);
 					}
-					$("#points-sum").html(player.hand[0].sum);
+					else if(this.id="reset-rules"){
+						game = new Game($("#table-min option:selected").text(),$("#num-of-decks option:selected").text(),$("num-of-players option:selected").text());
+					}
+					//$("#points-sum").html(player.hands[0].sum);
 				})
-				$("#current-wager").html(player.wager);
-
+				$("#current-wager").html("$"+player.wager);
+				$("#bankroll").html("$"+player.bankRoll);
 			})
 
 		</script>
 	</head>
 	<body>
 		<div id="wrapper">
-		<div id="game-board">
-			<div id="table">
-				<button id="new-deck">Ask For New Deck</button>
-
+			<aside id="configs">
+				<form>
+					Number of Decks
+					<select id="num-of-decks">
+						<option>1</option>
+						<option>2</option>
+						<option>4</option>
+						<option>6</option>
+						<option>8</option>
+					</select></br>
+					Number of Other Players
+					<select id="num-of-players">
+						<option>0</option>
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+					</select></br>
+					Table Min
+					<select id="table-min">
+						<option>$5</option>
+						<option>$10</option>
+						<option>$25</option>
+						<option>$50</option>
+					</select></br>
+					<button type="button" id="reset-rules">Reset Game</button>
+				</form>
+			</aside>
+			<div id="game-board">
+				<div id="dealer-table">
+					<div class="nameplate">Dealer</div>
+					<table>
+						<tr>
+							<td>Dealer's Points:</td>
+							<td id="dealer-points-sum"></td>
+						</tr>
+					</table>
+					<div id="dealer-console"></div>
+				</div>
+				<div id="table">
 				<div id="console"></div>
+				</div>
+				<nav id="controls">
+					<button class="busted" disabled id="hit">Hit</button>
+					<button class="busted" disabled id="stand">Stand</button>
+					<button class="busted" disabled id="double">Double</button>
+					<button class="busted" disabled id="split">Split</button>
+					<button id="deal">New Hand</button>
+					<button id="new-deck">Ask For New Deck</button>
+
+				</nav>
 			</div>
-			<nav id="controls">
-				<button id="hit">Hit</button>
-				<button id="stand">Stand</button>
-				<button id="double">Double</button>
-				<button id="split">Split</button>
-				<button id="deal">Deal Hand</button>
-			</nav>
-		</div>
-		<aside id="info-bar">
-			<table>
-				<tr>
-					<td>Points:</td>
-					<td id="points-sum"></td>
-				</tr>
-				<tr>
-					<td>Current Wager:</td>
-					<td id="current-wager"></td>
-				</tr>
-			</table>
-    	</aside>
+			<aside id="info-bar">
+				<table>
+					<tr>
+						<td>Points:</td>
+						<td id="points-sum"></td>
+					</tr>
+					<tr>
+						<td>Current Wager:</td>
+						<td id="current-wager"></td>
+					</tr>
+					<tr>
+						<td>Bankroll:</td>
+						<td id="bankroll"></td>
+					</tr>
+					<tr>
+						<td>Cards left:</td>
+						<td id="deck"></td>
+					</tr>
+				</table>
+	    	</aside>
 		</div>
 	</body>
 </html>

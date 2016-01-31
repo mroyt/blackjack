@@ -6,6 +6,11 @@ div#wrapper{
 	margin: auto;
 	width: 960px;
 	padding: 20px;
+	background-color: #eeeeee;
+}
+div.nameplate{
+	border: 2px solid; 
+	background-color: "gold";
 }
 div#game-board{
 	margin: auto;
@@ -13,10 +18,21 @@ div#game-board{
 }
 div#table{
 	margin: auto;
-	width: 660px;
+	border: 5px solid #BF7C19;
+	border-top: 5px solid #8A5300;
+	width: 650px;
 	height: 200px;
 	padding: 5px;
 	background-color: #006600;
+}
+div#dealer-table{
+	margin: auto;
+	border: 5px solid #BF7C19;
+	border-top: 5px solid #8A5300;
+	width: 432px;
+	height: 130px;
+	padding: 15px;
+	background-color: #680000;
 }
 div#console{
 	color: white;
@@ -35,10 +51,22 @@ div#points{
 	float: left;
 	margin: 5px;
 }
-
 nav#controls{
 	width: 660px;
 	padding: 5px;
 	margin: auto;
 	background-color: #a0a0a0;
+}
+aside{
+	border: 2px dotted #c5c5c5;
+	margin: 5px;
+}
+img.cardImg{
+	float: left;
+}
+button#new-deck{
+	float: right;
+}
+#dealer-table{
+	color: white;
 }

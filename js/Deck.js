@@ -14,12 +14,15 @@ Deck.prototype.deal = function(numOfCards,existingHand){
 	if (arguments.length==1){
 		existingHand = [];
 	}
+	console.log(existingHand);
+	/*
 	else{
 		existingHand = [existingHand];
-	}
+	}*/
 	for(i=0;i<numOfCards;i++){
 		existingHand.push(this.deck.pop()); // Pops top card off the deck and pushes into myHand
 	}
+	$("#deck").html(this.deck.length);
 	return existingHand;
 
 };
